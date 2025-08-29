@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Alunos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Cadastro de Alunos</h1>
+
+  <form id="alunoForm">
+    <input type="text" id="nome" placeholder="Nome" required>
+    <input type="text" id="cpf" placeholder="CPF" required>
+    <input type="text" id="telefone" placeholder="Telefone" required>
+    <input type="email" id="email" placeholder="E-mail" required>
+    <input type="text" id="matricula" placeholder="Matrícula" required>
+    <input type="text" id="escola" placeholder="Escola" required>
+    <button type="submit">Salvar</button>
+  </form>
+
+  <h2>Lista de Alunos</h2>
+  <ul id="lista"></ul>
+
+  <script>
+    const form = document.getElementById("alunoForm");
+    const lista = document.getElementById("lista");
+
+    function carregarAlunos() {
+      const alunos = JSON.parse(localStorage.getItem("alunos")) || [];
+      lista.innerHTML = "";
+      alunos.forEach((aluno, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `${aluno.nome} - ${aluno.email} 
+          <button onclick="editar(${index})">Editar</button>
+          <button onclick="deletar(${index})">Excluir</button>`;
+        lista.appendChild(li);
+      });
+    }
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const aluno = {
+        nome: document.getElementById("nome").value,
+        cpf: document.getElementById("cpf").value,
+        telefone: document.getElementById("telefone").value,
+        email: document.getElementById("email").value,
+        matricula: document.getElementById("matricula").value,
+        escola: document.getElementById("escola").value
+      };
+
+      let alunos = JSON.parse(localStorage.getItem("alunos")) || [];
+      alunos.push(aluno);
+      localStorage.setItem("alunos", JSON.stringify(alunos));
+
+      form.reset();
+      carregarAlunos();
+    });
+
+    function editar(index) {
+      let alunos = JSON.parse(localStorage.getItem("alunos")) || [];
+      const aluno = alunos[index];
+      document.getElementById("nome").value = aluno.nome;
+      document.getElementById("cpf").value = aluno.cpf;
+      document.getElementById("telefone").value = aluno.telefone;
+      document.getElementById("email").value = aluno.email;
+      document.getElementById("matricula").value = aluno.matricula;
+      document.getElementById("escola").value = aluno.escola;
+
+      alunos.splice(index, 1);
+      localStorage.setItem("alunos", JSON.stringify(alunos));
+      carregarAlunos();
+    }
+
+    function deletar(index) {
+      let alunos = JSON.parse(localStorage.getItem("alunos")) || [];
+      alunos.splice(index, 1);
+      localStorage.setItem("alunos", JSON.stringify(alunos));
+      carregarAlunos();
+    }
+
+    carregarAlunos();
+  </script>
+</body>
+</html>
