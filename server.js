@@ -1,17 +1,17 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const routes = require("./routes/router.js");
+const path = require("path");
+const router = require("./routes/router");
+const logger = require("./middleware/logger.middleware");
 
 const app = express();
+app.use(express.json());
+app.use(logger); // Middleware simples
+app.use(express.static(path.join(__dirname, "public")));
+
+// Rotas da API
+app.use("/api", router);
+
 const PORT = 3000;
-
-// Middlewares
-app.use(bodyParser.json());
-app.use(express.static("public"));
-
-// Rotas
-app.use("/api", routes);
-
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
