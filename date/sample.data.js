@@ -1,4 +1,6 @@
-module.exports = {
-  alunos: [],
-  nextId: 1
+const store = {
+  nextId: 1,
+  alunos: []
 };
+
+export default store;

@@ -27,8 +27,12 @@ function render() {
     const btnEdit = document.createElement("button");
     btnEdit.textContent = "Editar";
     btnEdit.onclick = async () => {
+
       a.nome = prompt("Novo nome:", a.nome) || a.nome;
+      a.cpf = prompt("Novo cpf: ", a.cpf)  || a.cpf;
+      a.telefone = prompt("Novo telefone", a.telefone) || a.telefone;
       a.email = prompt("Novo e-mail:", a.email) || a.email;
+      a.escola = prompt("Nova escola: ", a.escola) || a.escola;
 
       await fetch(`/api/alunos/${a.id}`, {
         method: "PUT",

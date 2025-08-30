@@ -1,6 +1,8 @@
-const express = require("express");
+import express from "express";
+import store from "../date/sample.data.js";
+
 const router = express.Router();
-const store = require("../date/sample.data");
+
 
 // CREATE
 router.post("/alunos", (req, res) => {
@@ -52,4 +54,5 @@ router.delete("/alunos/:id", (req, res) => {
   res.json({ message: "Aluno removido com sucesso" });
 });
 
-module.exports = router;
+// module.exports = router;
+export default router;
